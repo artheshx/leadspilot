@@ -172,18 +172,11 @@ export default function Settings() {
                   </div>
                 </div>
 
-                <div className="flex gap-4 pt-1">
-                  {[
-                    { label: 'Email Verified', verified: profile?.email_verified },
-                    { label: 'Phone Verified', verified: profile?.phone_verified },
-                  ].map(item => (
-                    <div key={item.label} className="flex items-center gap-1.5 text-xs">
-                      <CheckCircle2 size={13} className={item.verified ? 'text-green-400' : 'text-slate-600'} />
-                      <span className={item.verified ? 'text-green-400 font-medium' : 'text-slate-500'}>
-                        {item.label}
-                      </span>
-                    </div>
-                  ))}
+                <div className="flex gap-1.5 pt-1 text-xs">
+                  <CheckCircle2 size={13} className={profile?.email_verified ? 'text-green-400' : 'text-slate-600'} />
+                  <span className={profile?.email_verified ? 'text-green-400 font-medium' : 'text-slate-500'}>
+                    Email verified
+                  </span>
                 </div>
 
                 {saveError && <p className="text-xs text-red-400">{saveError}</p>}

@@ -32,11 +32,14 @@ npm run dev                 # http://localhost:5173
 ```
 1. supabase.com → New project
 2. SQL Editor → paste supabase-schema.sql → Run All
-3. Auth → Email Auth → disable "Confirm email" (we handle OTPs)
-4. Copy URL + anon key to .env
+3. Authentication → Providers → Email → enable **Confirm email**
+4. Authentication → URL Configuration → set Site URL and add `http://localhost:5173/login` plus your production `/login` URL to Redirect URLs
+5. Disable the Phone provider if it is enabled (this app does not use SMS verification)
+6. Run `supabase/migrations/002_supabase_email_confirmation.sql` in the SQL Editor for an existing database; new databases can use `supabase/schema.sql`
+7. Copy URL + anon key to `.env`
 ```
 
-## Edge Functions (OTP + Meta Sync)
+## Edge Functions (Meta Sync)
 
 ```bash
 # Install Supabase CLI
@@ -48,12 +51,8 @@ supabase link --project-ref your-project-id
 
 # Set secrets
 supabase secrets set META_SYSTEM_ACCESS_TOKEN=your-token
-supabase secrets set RESEND_API_KEY=re_xxxxx
-supabase secrets set FAST2SMS_API_KEY=your-key
 
 # Deploy functions
-supabase functions deploy send-otp-email
-supabase functions deploy send-otp-sms
 supabase functions deploy sync-meta-leads
 ```
 
@@ -68,7 +67,7 @@ UPDATE profiles SET role = 'admin' WHERE email = 'your@email.com';
 | Phase | Feature |
 |-------|---------|
 | 1 | Marketing site (7 pages, SEO, animations) |
-| 2 | Auth (signup, email+phone OTP, login, password reset) |
+| 2 | Auth (Supabase email confirmation, login, password reset) |
 | 3 | Client dashboard (campaigns, leads, billing, support, settings) |
 | 4 | Admin panel (users, campaigns, billing, support, meta accounts) |
 | 5 | Meta Ads API (insights sync, lead sync, edge functions) |
@@ -78,7 +77,7 @@ UPDATE profiles SET role = 'admin' WHERE email = 'your@email.com';
 | Path | Description |
 |------|-------------|
 | `/` | Landing page |
-| `/signup` | Register with OTP |
+| `/signup` | Register and confirm email |
 | `/login` | Sign in |
 | `/dashboard` | Client overview |
 | `/dashboard/campaigns` | Campaign management |
