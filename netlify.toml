@@ -1,0 +1,14 @@
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# React Router client-side routes (e.g. /dashboard/campaigns) must fall back
+# to index.html, otherwise a hard refresh 404s.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

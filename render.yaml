@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: leadpilot-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: DATABASE_URL
+        sync: false          # Supabase pooler connection string, see notes
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false          # your Netlify URL, e.g. https://leadpilot.netlify.app
+      - key: LLM_PROVIDER
+        value: groq           # "ollama" (default) will NOT work on Render — no local Ollama server
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_CHAT_MODEL
+        value: llama-3.3-70b-versatile
+      - key: EMBED_PROVIDER
+        value: ollama        # only used by Knowledge/RAG tool — switch to openai if you don't self-host Ollama
+      - key: ADMIN_SECRETS_KEY
+        sync: false          # generate: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+      - key: META_DRY_RUN
+        value: "true"
+      - key: META_MAX_MONTHLY_BUDGET_INR
+        value: "200000"
+      - key: FRONTEND_DIST_PATH
+        value: ""            # keep EMPTY — frontend is deployed separately on Netlify
