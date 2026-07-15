@@ -86,8 +86,8 @@ database *before* the backend's `init_db()` calls run for the first time. See
   tooling — now with the same auth + ownership enforcement as `/manager/chat` (see #4).
 
 ### 4. Authentication bridged, not rebuilt — plus a full ownership-check pass
-Sign-up/sign-in/OTP/password reset are **unchanged** — still 100% Supabase Auth,
-client-side, exactly as in LeadPilot Complete. `backend/app/auth.py` verifies the same
+Sign-up/sign-in/email confirmation/password reset are handled 100% by Supabase Auth
+on the client. `backend/app/auth.py` verifies the same
 Supabase-issued JWT (via `SUPABASE_JWT_SECRET`) on every backend request. `profiles.role`
 isn't in the JWT by default, so admin detection looks it up from the shared database
 rather than trusting a claim that was never actually there.

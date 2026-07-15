@@ -3,9 +3,8 @@ Authentication bridge between LeadPilot Complete's existing auth (Supabase
 Auth, unchanged — see requirement "keep authentication ... working") and
 the AI Manager backend.
 
-Nothing about sign-up/sign-in/OTP/password-reset changes: that all still
-happens client-side against Supabase exactly as it did in LeadPilot
-Complete. What's new is that every request the frontend makes to *this*
+Sign-up/sign-in/email confirmation/password reset all happen client-side
+against Supabase. What's new is that every request the frontend makes to *this*
 backend (AI Manager chat + all tool routers) must carry the Supabase
 session's access token, e.g.:
 
