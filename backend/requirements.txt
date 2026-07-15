@@ -1,0 +1,17 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+requests==2.32.3
+chromadb==0.5.15
+pypdf==4.3.1
+Pillow==10.4.0
+python-multipart==0.0.9
+Jinja2==3.1.4
+
+# --- added for the LeadPilot Complete + LeadPilot AI Manager merge ---
+psycopg2-binary==2.9.9   # single shared Postgres database (was sqlite3 stdlib)
+PyJWT==2.9.0             # verifies the Supabase-issued access token on every request
+
+# --- added for the Admin CRM (provider/meta/whatsapp secrets, audit log) ---
+cryptography==43.0.1     # Fernet symmetric encryption for admin-configured API keys/secrets at rest
+python-docx==1.1.2       # DOCX parsing for the Admin CRM Knowledge Base upload
