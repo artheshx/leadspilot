@@ -1,0 +1,28 @@
+# One-command way to run the unified backend (+ built frontend) locally
+# against your existing Supabase Postgres database.
+#
+#   cp backend/.env.example .env   # fill in DATABASE_URL, SUPABASE_URL, SUPABASE_JWT_SECRET
+#   docker compose up --build
+#
+# This does NOT run Postgres or Supabase itself — DATABASE_URL should point
+# at your real Supabase project (see backend/.env.example). It also does not
+# run Ollama by default (LLM_PROVIDER defaults to "ollama", which needs a
+# server reachable at OLLAMA_BASE_URL — either run one yourself and set
+# OLLAMA_BASE_URL to it, or set LLM_PROVIDER=anthropic/openai instead, which
+# needs no extra container at all).
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ""   # empty = same-origin, since this container serves both API + frontend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - backend-storage:/app/backend/storage
+
+volumes:
+  backend-storage:
